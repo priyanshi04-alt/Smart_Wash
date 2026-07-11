@@ -1,0 +1,567 @@
+{
+  "hostels": [
+    {
+      "id": "h1",
+      "name": "Boys Hostel A",
+      "color": "#3b82f6"
+    },
+    {
+      "id": "h2",
+      "name": "Girls Hostel A",
+      "color": "#a855f7"
+    },
+    {
+      "id": "h3",
+      "name": "Girls Hostel B",
+      "color": "#ec4899"
+    },
+    {
+      "id": "h4",
+      "name": "Boys Hostel B",
+      "color": "#10b981"
+    }
+  ],
+  "rooms": {
+    "h1": [
+      "101",
+      "102",
+      "103",
+      "201",
+      "202",
+      "203"
+    ],
+    "h2": [
+      "101",
+      "102",
+      "103",
+      "201",
+      "202",
+      "203"
+    ],
+    "h3": [
+      "101",
+      "102",
+      "201",
+      "202"
+    ],
+    "h4": [
+      "101",
+      "102",
+      "201",
+      "202"
+    ]
+  },
+  "users": [
+    {
+      "id": "u1",
+      "email": "admin@univ.edu",
+      "password": "admin123",
+      "role": "admin",
+      "name": "System Admin"
+    },
+    {
+      "id": "u2",
+      "email": "staff@univ.edu",
+      "password": "staff123",
+      "role": "staff",
+      "name": "Ramesh Kumar",
+      "hostelId": "h1",
+      "counter": "Main Counter A"
+    },
+    {
+      "id": "u3",
+      "email": "staff2@univ.edu",
+      "password": "staff123",
+      "role": "staff",
+      "name": "Sunita Devi",
+      "hostelId": "h2",
+      "counter": "Main Counter B"
+    },
+    {
+      "id": "u4",
+      "email": "aarav@univ.edu",
+      "password": "aarav123",
+      "role": "student",
+      "studentId": "s1"
+    },
+    {
+      "id": "u5",
+      "email": "priya@univ.edu",
+      "password": "priya123",
+      "role": "student",
+      "studentId": "s2"
+    },
+    {
+      "id": "9feivhl",
+      "email": "vikram.test@univ.edu",
+      "password": "2026TEST999",
+      "role": "student",
+      "studentId": "s3"
+    }
+  ],
+  "students": [
+    {
+      "id": "s1",
+      "name": "Aarav Sharma",
+      "rollNumber": "2026CS101",
+      "regNumber": "REG99831",
+      "email": "aarav@univ.edu",
+      "mobile": "9876543210",
+      "hostelId": "h1",
+      "floor": 1,
+      "room": "102",
+      "laundryId": "LID-1023",
+      "tags": [
+        {
+          "serialNumber": "T001",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T002",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T003",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T004",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T005",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T006",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T007",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T008",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T009",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T010",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T011",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T012",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T013",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T014",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T015",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T016",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T017",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T018",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T019",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T020",
+          "status": "active"
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "id": "s2",
+      "name": "Priya Patel",
+      "rollNumber": "2026EC204",
+      "regNumber": "REG99832",
+      "email": "priya@univ.edu",
+      "mobile": "9876543211",
+      "hostelId": "h2",
+      "floor": 2,
+      "room": "203",
+      "laundryId": "LID-1024",
+      "tags": [
+        {
+          "serialNumber": "T021",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T022",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T023",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T024",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T025",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T026",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T027",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T028",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T029",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T030",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T031",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T032",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T033",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T034",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T035",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T036",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T037",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T038",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T039",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T040",
+          "status": "active"
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "id": "s3",
+      "name": "Test Vikram",
+      "rollNumber": "2026TEST999",
+      "regNumber": "REG99900",
+      "email": "vikram.test@univ.edu",
+      "mobile": "9999999999",
+      "hostelId": "h1",
+      "floor": 3,
+      "room": "302",
+      "laundryId": "LID-6854",
+      "tags": [
+        {
+          "serialNumber": "T0081",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0082",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0083",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0084",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0085",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0086",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0087",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0088",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0089",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0090",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0091",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0092",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0093",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0094",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0095",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0096",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0097",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0098",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0099",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0100",
+          "status": "active"
+        }
+      ],
+      "status": "active"
+    }
+  ],
+  "schedules": [
+    {
+      "hostelId": "h1",
+      "days": [
+        "Monday",
+        "Thursday"
+      ],
+      "pickup": "08:00",
+      "delivery": "18:00",
+      "emergencyEnabled": true
+    },
+    {
+      "hostelId": "h2",
+      "days": [
+        "Tuesday",
+        "Friday"
+      ],
+      "pickup": "08:00",
+      "delivery": "18:00",
+      "emergencyEnabled": true
+    },
+    {
+      "hostelId": "h3",
+      "days": [
+        "Wednesday",
+        "Saturday"
+      ],
+      "pickup": "09:00",
+      "delivery": "17:00",
+      "emergencyEnabled": false
+    },
+    {
+      "hostelId": "h4",
+      "days": [
+        "Wednesday",
+        "Saturday"
+      ],
+      "pickup": "09:00",
+      "delivery": "17:00",
+      "emergencyEnabled": false
+    }
+  ],
+  "requests": [
+    {
+      "id": "r1",
+      "studentId": "s1",
+      "studentName": "Aarav Sharma",
+      "laundryId": "LID-1023",
+      "hostelId": "h1",
+      "room": "102",
+      "clothes": {
+        "Shirts": 3,
+        "Pants": 2,
+        "T-Shirts": 2
+      },
+      "expectedTotal": 7,
+      "scannedTags": [],
+      "status": "Waiting for Verification",
+      "issue": null,
+      "createdAt": "2026-07-11T10:00:00.000Z",
+      "history": [
+        {
+          "status": "Waiting for Verification",
+          "timestamp": "2026-07-11T10:00:00.000Z",
+          "note": "Request submitted by student"
+        }
+      ]
+    },
+    {
+      "id": "r2",
+      "studentId": "s2",
+      "studentName": "Priya Patel",
+      "laundryId": "LID-1024",
+      "hostelId": "h2",
+      "room": "203",
+      "clothes": {
+        "Bedsheets": 1,
+        "Towels": 2,
+        "Others": 3
+      },
+      "expectedTotal": 6,
+      "scannedTags": [
+        "T00021",
+        "T00022",
+        "T00023",
+        "T00024",
+        "T00025",
+        "T00026"
+      ],
+      "status": "Ready",
+      "issue": null,
+      "createdAt": "2026-07-10T09:30:00.000Z",
+      "history": [
+        {
+          "status": "Waiting for Verification",
+          "timestamp": "2026-07-10T09:30:00.000Z",
+          "note": "Request submitted by student"
+        },
+        {
+          "status": "Received",
+          "timestamp": "2026-07-10T10:00:00.000Z",
+          "note": "Laundry verified and received by Sunita Devi"
+        },
+        {
+          "status": "Washing",
+          "timestamp": "2026-07-10T11:00:00.000Z",
+          "note": "Moved to washing"
+        },
+        {
+          "status": "Drying",
+          "timestamp": "2026-07-10T13:30:00.000Z",
+          "note": "Moved to drying"
+        },
+        {
+          "status": "Ready",
+          "timestamp": "2026-07-10T16:00:00.000Z",
+          "note": "Laundry ironed and ready for pickup"
+        }
+      ]
+    },
+    {
+      "id": "r3",
+      "studentId": "s3",
+      "studentName": "Test Vikram",
+      "laundryId": "LID-6854",
+      "hostelId": "h1",
+      "room": "302",
+      "clothes": {
+        "Shirts": 2,
+        "Pants": 1
+      },
+      "expectedTotal": 3,
+      "scannedTags": [
+        "T0081",
+        "T0082",
+        "T0083"
+      ],
+      "status": "Delivered",
+      "issue": null,
+      "createdAt": "2026-07-11T12:42:14.711Z",
+      "history": [
+        {
+          "status": "Waiting for Verification",
+          "timestamp": "2026-07-11T12:42:14.711Z",
+          "note": "Request submitted by student"
+        },
+        {
+          "status": "Received",
+          "timestamp": "2026-07-11T12:42:14.756Z",
+          "note": "Staff verified and received"
+        },
+        {
+          "status": "Washing",
+          "timestamp": "2026-07-11T12:42:14.762Z",
+          "note": "Status updated to Washing"
+        },
+        {
+          "status": "Ready",
+          "timestamp": "2026-07-11T12:42:14.767Z",
+          "note": "Status updated to Ready"
+        },
+        {
+          "status": "Delivered",
+          "timestamp": "2026-07-11T12:42:14.773Z",
+          "note": "Laundry collected. Verified via tag scan."
+        }
+      ]
+    }
+  ],
+  "notifications": [
+    {
+      "id": "n1",
+      "targetType": "all",
+      "message": "Hostel Laundry System is now active! Please collect your tags from the warden.",
+      "createdAt": "2026-07-11T09:00:00.000Z"
+    }
+  ],
+  "issues": []
+}
