@@ -19,6 +19,11 @@
       "id": "h4",
       "name": "Boys Hostel B",
       "color": "#10b981"
+    },
+    {
+      "id": "h5",
+      "name": "Columbus",
+      "color": "#bb3bf7"
     }
   ],
   "rooms": {
@@ -49,6 +54,14 @@
       "102",
       "201",
       "202"
+    ],
+    "h5": [
+      "101",
+      "102",
+      "103",
+      "201",
+      "202",
+      "203"
     ]
   },
   "users": [
@@ -97,6 +110,20 @@
       "password": "2026TEST999",
       "role": "student",
       "studentId": "s3"
+    },
+    {
+      "id": "iklbl3a",
+      "email": "vikram.test.50938@univ.edu",
+      "password": "2026TEST50938",
+      "role": "student",
+      "studentId": "s4"
+    },
+    {
+      "id": "b2zca1b",
+      "email": "vikram.test.61106@univ.edu",
+      "password": "2026TEST61106",
+      "role": "student",
+      "studentId": "s5"
     }
   ],
   "students": [
@@ -384,6 +411,196 @@
         }
       ],
       "status": "active"
+    },
+    {
+      "id": "s4",
+      "name": "Test Vikram 50938",
+      "rollNumber": "2026TEST50938",
+      "regNumber": "REG50938",
+      "email": "vikram.test.50938@univ.edu",
+      "mobile": "9999999999",
+      "hostelId": "h1",
+      "floor": 3,
+      "room": "302",
+      "laundryId": "LID-6178",
+      "tags": [
+        {
+          "serialNumber": "T0121",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0122",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0123",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0124",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0125",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0126",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0127",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0128",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0129",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0130",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0131",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0132",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0133",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0134",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0135",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0136",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0137",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0138",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0139",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0140",
+          "status": "active"
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "id": "s5",
+      "name": "Test Vikram 61106",
+      "rollNumber": "2026TEST61106",
+      "regNumber": "REG61106",
+      "email": "vikram.test.61106@univ.edu",
+      "mobile": "9999999999",
+      "hostelId": "h1",
+      "floor": 3,
+      "room": "302",
+      "laundryId": "LID-8155",
+      "tags": [
+        {
+          "serialNumber": "T0161",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0162",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0163",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0164",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0165",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0166",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0167",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0168",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0169",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0170",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0171",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0172",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0173",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0174",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0175",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0176",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0177",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0178",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0179",
+          "status": "active"
+        },
+        {
+          "serialNumber": "T0180",
+          "status": "active"
+        }
+      ],
+      "status": "active"
     }
   ],
   "schedules": [
@@ -426,6 +643,15 @@
       "pickup": "09:00",
       "delivery": "17:00",
       "emergencyEnabled": false
+    },
+    {
+      "hostelId": "h5",
+      "days": [
+        "Monday"
+      ],
+      "pickup": "08:00",
+      "delivery": "18:00",
+      "emergencyEnabled": false
     }
   ],
   "requests": [
@@ -442,8 +668,16 @@
         "T-Shirts": 2
       },
       "expectedTotal": 7,
-      "scannedTags": [],
-      "status": "Waiting for Verification",
+      "scannedTags": [
+        "T002",
+        "T001",
+        "T003",
+        "T004",
+        "T005",
+        "T006",
+        "T007"
+      ],
+      "status": "Received",
       "issue": null,
       "createdAt": "2026-07-11T10:00:00.000Z",
       "history": [
@@ -451,6 +685,11 @@
           "status": "Waiting for Verification",
           "timestamp": "2026-07-11T10:00:00.000Z",
           "note": "Request submitted by student"
+        },
+        {
+          "status": "Received",
+          "timestamp": "2026-07-12T10:40:53.852Z",
+          "note": "Received and verified 7 tags"
         }
       ]
     },
@@ -550,6 +789,80 @@
         {
           "status": "Delivered",
           "timestamp": "2026-07-11T12:42:14.773Z",
+          "note": "Laundry collected. Verified via tag scan."
+        }
+      ]
+    },
+    {
+      "id": "r4",
+      "studentId": "s4",
+      "studentName": "Test Vikram 50938",
+      "laundryId": "LID-6178",
+      "hostelId": "h1",
+      "room": "302",
+      "clothes": {
+        "Shirts": 2,
+        "Pants": 1
+      },
+      "expectedTotal": 3,
+      "scannedTags": [
+        "T0121"
+      ],
+      "status": "Waiting for Verification",
+      "issue": null,
+      "createdAt": "2026-07-12T10:42:18.957Z",
+      "history": [
+        {
+          "status": "Waiting for Verification",
+          "timestamp": "2026-07-12T10:42:18.957Z",
+          "note": "Request submitted by student"
+        }
+      ]
+    },
+    {
+      "id": "r5",
+      "studentId": "s5",
+      "studentName": "Test Vikram 61106",
+      "laundryId": "LID-8155",
+      "hostelId": "h1",
+      "room": "302",
+      "clothes": {
+        "Shirts": 2,
+        "Pants": 1
+      },
+      "expectedTotal": 3,
+      "scannedTags": [
+        "T0161",
+        "T0162",
+        "T0163"
+      ],
+      "status": "Delivered",
+      "issue": null,
+      "createdAt": "2026-07-12T10:42:31.056Z",
+      "history": [
+        {
+          "status": "Waiting for Verification",
+          "timestamp": "2026-07-12T10:42:31.056Z",
+          "note": "Request submitted by student"
+        },
+        {
+          "status": "Received",
+          "timestamp": "2026-07-12T10:42:31.203Z",
+          "note": "Staff verified and received"
+        },
+        {
+          "status": "Washing",
+          "timestamp": "2026-07-12T10:42:31.216Z",
+          "note": "Status updated to Washing"
+        },
+        {
+          "status": "Ready",
+          "timestamp": "2026-07-12T10:42:31.230Z",
+          "note": "Status updated to Ready"
+        },
+        {
+          "status": "Delivered",
+          "timestamp": "2026-07-12T10:42:31.245Z",
           "note": "Laundry collected. Verified via tag scan."
         }
       ]

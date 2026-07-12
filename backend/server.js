@@ -568,16 +568,18 @@ app.post('/api/requests/scan-tag', (req, res) => {
     return res.status(400).json({ message: `Tag ${tagSerial} is marked as ${studentTag.status} and cannot be scanned.` });
   }
   
-  // Check for duplicate scanning
+  // Toggle tag logic: If already scanned, deselect it (remove from scannedTags)
   if (request.scannedTags.includes(tagSerial)) {
-    return res.status(400).json({ message: `This tag (${tagSerial}) has already been scanned.` });
+    request.scannedTags = request.scannedTags.filter(t => t !== tagSerial);
+    writeDb(db);
+    return res.json({ request, message: `Tag ${tagSerial} deselected.` });
   }
   
-  // Add tag and write back
+  // Otherwise, add tag (select it)
   request.scannedTags.push(tagSerial);
   writeDb(db);
   
-  res.json({ request });
+  res.json({ request, message: `Tag ${tagSerial} selected.` });
 });
 
 // 3. Scan tag for delivery (opens order and marks delivered)

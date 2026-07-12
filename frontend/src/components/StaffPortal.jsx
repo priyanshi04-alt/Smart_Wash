@@ -637,11 +637,26 @@ export default function StaffPortal({ user, onLogout }) {
 
                     {/* Scanned Tag list */}
                     <div>
-                      <h4 style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>Scanned Tags</h4>
+                      <h4 style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
+                        Scanned Tags <span style={{ fontSize: '0.75rem', fontWeight: 'normal', color: 'var(--text-muted)' }}>(Click to deselect)</span>
+                      </h4>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
                         {scannedTagsList.map(tag => (
-                          <span key={tag} className="badge badge-received" style={{ fontSize: '0.75rem' }}>
-                            {tag}
+                          <span 
+                            key={tag} 
+                            onClick={() => handleSimulateScan(`${activeVerificationStudent?.laundryId} | ${tag}`)}
+                            className="badge badge-received" 
+                            style={{ 
+                              fontSize: '0.75rem', 
+                              cursor: 'pointer', 
+                              display: 'inline-flex', 
+                              alignItems: 'center', 
+                              gap: '0.25rem',
+                              transition: 'all 0.2s'
+                            }}
+                            title="Click to deselect tag"
+                          >
+                            {tag} <span style={{ fontSize: '0.95rem', marginLeft: '1px', opacity: 0.8 }}>&times;</span>
                           </span>
                         ))}
                         {scannedTagsList.length === 0 && <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>No tags scanned yet.</span>}

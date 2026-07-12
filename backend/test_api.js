@@ -28,14 +28,15 @@ async function runTests() {
 
     // 3. Create Student Mapping
     console.log("👤 Creating a test student...");
+    const rand = Math.floor(Math.random() * 100000);
     const newStudentRes = await fetch(`${BASE_URL}/students`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        name: 'Test Vikram',
-        rollNumber: '2026TEST999',
-        regNumber: 'REG99900',
-        email: 'vikram.test@univ.edu',
+        name: `Test Vikram ${rand}`,
+        rollNumber: `2026TEST${rand}`,
+        regNumber: `REG${rand}`,
+        email: `vikram.test.${rand}@univ.edu`,
         mobile: '9999999999',
         hostelId: 'h1', // Boys Hostel A
         floor: 3,
@@ -95,17 +96,24 @@ async function runTests() {
     assert.deepStrictEqual(scan1Data.request.scannedTags, [tag1], "First tag should be added to scanned list");
     console.log("✅ First scan successful, verified request open!");
 
-    // 6. Test Duplicate Scan Protection
-    console.log("⚠️ Simulating duplicate scan of Tag 1...");
+    // 6. Test Toggle Scan Logic (Deselect duplicate scan)
+    console.log("🔄 Simulating duplicate scan of Tag 1 to deselect...");
     const dupRes = await fetch(`${BASE_URL}/requests/scan-tag`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ requestId: request.id, payload: `${testStudent.laundryId} | ${tag1}` })
     });
-    assert.strictEqual(dupRes.status, 400, "Duplicate scan should fail with 400 Bad Request");
+    assert.strictEqual(dupRes.status, 200, "Duplicate scan should toggle off and return 200 OK");
     const dupData = await dupRes.json();
-    assert.strictEqual(dupData.message, `This tag (${tag1}) has already been scanned.`);
-    console.log("✅ Duplicate scan correctly blocked! Warning shown.");
+    assert.deepStrictEqual(dupData.request.scannedTags, [], "Tag 1 should be removed from scanned list (deselected)");
+    console.log("✅ Tag 1 correctly deselected via repeat scan!");
+
+    console.log("📷 Re-scanning Tag 1 to select it again...");
+    await fetch(`${BASE_URL}/requests/scan-tag`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ requestId: request.id, payload: `${testStudent.laundryId} | ${tag1}` })
+    });
 
     // 7. Test Mismatch Scan (Wrong student ID)
     console.log("⚠️ Simulating tag scan from different student...");
