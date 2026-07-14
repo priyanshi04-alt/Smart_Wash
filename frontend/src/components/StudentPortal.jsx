@@ -4,6 +4,7 @@ import {
   Plus, Calendar, CreditCard, Check, AlertCircle, ShoppingBag, ShieldAlert,
   WashingMachine
 } from 'lucide-react';
+import { API_URL } from '../config';
 
 const CLOTHING_TYPES = ["Shirts", "Pants", "T-Shirts", "Towels", "Bedsheets", "Blankets", "Others"];
 
@@ -33,24 +34,24 @@ export default function StudentPortal({ user, onLogout }) {
   const fetchStudentData = async () => {
     try {
       // 1. Fetch requests
-      const reqRes = await fetch(`http://localhost:5000/api/requests/student/${user.id}`);
+      const reqRes = await fetch(`${API_URL}/api/requests/student/${user.id}`);
       const reqData = await reqRes.json();
       setRequests(reqData);
 
       // 2. Fetch hostel schedules
-      const schedRes = await fetch('http://localhost:5000/api/schedules');
+      const schedRes = await fetch(`${API_URL}/api/schedules`);
       const schedData = await schedRes.json();
       const mySched = schedData.find(s => s.hostelId === user.hostelId);
       setSchedule(mySched);
 
       // 3. Fetch hostels to get dynamic color/name
-      const hostelRes = await fetch('http://localhost:5000/api/hostels');
+      const hostelRes = await fetch(`${API_URL}/api/hostels`);
       const hostelData = await hostelRes.json();
       const myHostel = hostelData.find(h => h.id === user.hostelId);
       setHostel(myHostel);
 
       // 4. Fetch student issues
-      const issueRes = await fetch('http://localhost:5000/api/issues');
+      const issueRes = await fetch(`${API_URL}/api/issues`);
       const issueData = await issueRes.json();
       const myIssues = issueData.filter(iss => iss.studentId === user.id);
       setIssuesList(myIssues);
@@ -90,7 +91,7 @@ export default function StudentPortal({ user, onLogout }) {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/requests', {
+      const response = await fetch(`${API_URL}/api/requests`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -127,7 +128,7 @@ export default function StudentPortal({ user, onLogout }) {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/issues', {
+      const response = await fetch(`${API_URL}/api/issues`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

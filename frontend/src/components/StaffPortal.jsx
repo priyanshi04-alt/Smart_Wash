@@ -4,6 +4,7 @@ import {
   ShoppingBag, LogOut, Search, RefreshCw, Check, AlertTriangle, 
   Trash2, Play, Flame, Gift, ArrowRight, UserCheck 
 } from 'lucide-react';
+import { API_URL } from '../config';
 
 export default function StaffPortal({ user, onLogout }) {
   const [activeTab, setActiveTab] = useState('queue');
@@ -34,7 +35,7 @@ export default function StaffPortal({ user, onLogout }) {
   const fetchStaffData = async () => {
     try {
       // 1. Fetch hostel info
-      const hostelRes = await fetch('http://localhost:5000/api/hostels');
+      const hostelRes = await fetch(`${API_URL}/api/hostels`);
       const hostelData = await hostelRes.json();
       const myHostel = hostelData.find(h => h.id === user.hostelId);
       setHostel(myHostel);
@@ -51,7 +52,7 @@ export default function StaffPortal({ user, onLogout }) {
       }
 
       // 2. Fetch requests queue
-      const reqRes = await fetch(`http://localhost:5000/api/requests/staff/${user.hostelId}`);
+      const reqRes = await fetch(`${API_URL}/api/requests/staff/${user.hostelId}`);
       const reqData = await reqRes.json();
       setRequests(reqData);
     } catch (err) {
@@ -61,7 +62,7 @@ export default function StaffPortal({ user, onLogout }) {
 
   const handleUpdateStatus = async (requestId, nextStatus, note = '') => {
     try {
-      const response = await fetch(`http://localhost:5000/api/requests/${requestId}/status`, {
+      const response = await fetch(`${API_URL}/api/requests/${requestId}/status`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: nextStatus, note })
@@ -95,7 +96,7 @@ export default function StaffPortal({ user, onLogout }) {
     try {
       // Scenario A: First tag scan (No active request loaded yet)
       if (!activeVerificationRequest) {
-        const response = await fetch('http://localhost:5000/api/requests/scan-first', {
+        const response = await fetch(`${API_URL}/api/requests/scan-first`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ payload: scanText })
@@ -111,7 +112,7 @@ export default function StaffPortal({ user, onLogout }) {
       } 
       // Scenario B: Subsequent tag scans (Already working on a request)
       else {
-        const response = await fetch('http://localhost:5000/api/requests/scan-tag', {
+        const response = await fetch(`${API_URL}/api/requests/scan-tag`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -137,7 +138,7 @@ export default function StaffPortal({ user, onLogout }) {
     setScanSuccess('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/requests/scan-delivery', {
+      const response = await fetch(`${API_URL}/api/requests/scan-delivery`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ payload })
@@ -161,7 +162,7 @@ export default function StaffPortal({ user, onLogout }) {
 
     try {
       const dbReq = requests.find(r => r.id === selectedReqForIssue);
-      const response = await fetch('http://localhost:5000/api/issues', {
+      const response = await fetch(`${API_URL}/api/issues`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

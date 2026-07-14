@@ -4,6 +4,7 @@ import {
   Calendar, ShieldAlert, FileText, Plus, Edit, Trash2, CheckCircle, 
   Search, RefreshCw, X, UserMinus, AlertTriangle, LogOut
 } from 'lucide-react';
+import { API_URL } from '../config';
 
 export default function AdminPortal({ user, onLogout }) {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -69,12 +70,12 @@ export default function AdminPortal({ user, onLogout }) {
   const fetchAdminData = async () => {
     try {
       // 1. Fetch dashboard stats
-      const statsRes = await fetch('http://localhost:5000/api/dashboard/admin');
+      const statsRes = await fetch(`${API_URL}/api/dashboard/admin`);
       const statsData = await statsRes.json();
       setStats(statsData);
 
       // 2. Fetch hostels
-      const hostelRes = await fetch('http://localhost:5000/api/hostels');
+      const hostelRes = await fetch(`${API_URL}/api/hostels`);
       const hostelData = await hostelRes.json();
       setHostels(hostelData);
       if (hostelData.length > 0) {
@@ -84,17 +85,17 @@ export default function AdminPortal({ user, onLogout }) {
       }
 
       // 3. Fetch students
-      const studRes = await fetch('http://localhost:5000/api/students');
+      const studRes = await fetch(`${API_URL}/api/students`);
       const studData = await studRes.json();
       setStudents(studData);
 
       // 4. Fetch staff
-      const staffRes = await fetch('http://localhost:5000/api/staff');
+      const staffRes = await fetch(`${API_URL}/api/staff`);
       const staffData = await staffRes.json();
       setStaffList(staffData);
 
       // 5. Fetch schedules
-      const schedRes = await fetch('http://localhost:5000/api/schedules');
+      const schedRes = await fetch(`${API_URL}/api/schedules`);
       const schedData = await schedRes.json();
       setSchedules(schedData);
 
@@ -108,12 +109,12 @@ export default function AdminPortal({ user, onLogout }) {
       }
 
       // 6. Fetch requests
-      const reqRes = await fetch('http://localhost:5000/api/requests');
+      const reqRes = await fetch(`${API_URL}/api/requests`);
       const reqData = await reqRes.json();
       setRequests(reqData);
 
       // 7. Fetch issues
-      const issueRes = await fetch('http://localhost:5000/api/issues');
+      const issueRes = await fetch(`${API_URL}/api/issues`);
       const issueData = await issueRes.json();
       setIssuesList(issueData);
 
@@ -126,7 +127,7 @@ export default function AdminPortal({ user, onLogout }) {
     e.preventDefault();
     try {
       const roomArr = newHostelRooms.split(',').map(r => r.trim());
-      const response = await fetch('http://localhost:5000/api/hostels', {
+      const response = await fetch(`${API_URL}/api/hostels`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -148,7 +149,7 @@ export default function AdminPortal({ user, onLogout }) {
   const handleDeleteHostel = async (id) => {
     if (!window.confirm("Are you sure you want to delete this hostel? This deletes all schedules too.")) return;
     try {
-      const response = await fetch(`http://localhost:5000/api/hostels/${id}`, { method: 'DELETE' });
+      const response = await fetch(`${API_URL}/api/hostels/${id}`, { method: 'DELETE' });
       if (!response.ok) throw new Error("Failed to delete");
       fetchAdminData();
     } catch (err) {
@@ -159,7 +160,7 @@ export default function AdminPortal({ user, onLogout }) {
   const handleCreateStudent = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/students', {
+      const response = await fetch(`${API_URL}/api/students`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -191,7 +192,7 @@ export default function AdminPortal({ user, onLogout }) {
 
   const handleToggleStudent = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/students/${id}/toggle-status`, { method: 'POST' });
+      const response = await fetch(`${API_URL}/api/students/${id}/toggle-status`, { method: 'POST' });
       if (!response.ok) throw new Error("Failed to toggle status");
       fetchAdminData();
     } catch (err) {
@@ -202,7 +203,7 @@ export default function AdminPortal({ user, onLogout }) {
   const handleCreateStaff = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/staff', {
+      const response = await fetch(`${API_URL}/api/staff`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -229,7 +230,7 @@ export default function AdminPortal({ user, onLogout }) {
   const handleDeleteStaff = async (id) => {
     if (!window.confirm("Delete this staff member?")) return;
     try {
-      const response = await fetch(`http://localhost:5000/api/staff/${id}`, { method: 'DELETE' });
+      const response = await fetch(`${API_URL}/api/staff/${id}`, { method: 'DELETE' });
       if (!response.ok) throw new Error("Failed to delete");
       fetchAdminData();
     } catch (err) {
@@ -241,7 +242,7 @@ export default function AdminPortal({ user, onLogout }) {
     e.preventDefault();
     if (!selectedStudentForTag || !selectedTagToReplace) return;
     try {
-      const response = await fetch(`http://localhost:5000/api/students/${selectedStudentForTag}/replace-tag`, {
+      const response = await fetch(`${API_URL}/api/students/${selectedStudentForTag}/replace-tag`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -262,7 +263,7 @@ export default function AdminPortal({ user, onLogout }) {
 
   const handleToggleTagStatus = async (studentId, tagSerial) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/students/${studentId}/disable-tag`, {
+      const response = await fetch(`${API_URL}/api/students/${studentId}/disable-tag`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tagSerial })
@@ -276,7 +277,7 @@ export default function AdminPortal({ user, onLogout }) {
 
   const handleResolveIssue = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/issues/${id}/resolve`, { method: 'POST' });
+      const response = await fetch(`${API_URL}/api/issues/${id}/resolve`, { method: 'POST' });
       if (!response.ok) throw new Error("Failed to resolve issue");
       fetchAdminData();
     } catch (err) {
@@ -288,7 +289,7 @@ export default function AdminPortal({ user, onLogout }) {
     e.preventDefault();
     if (!selectedSchedHostel) return;
     try {
-      const response = await fetch('http://localhost:5000/api/schedules', {
+      const response = await fetch(`${API_URL}/api/schedules`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
