@@ -74,6 +74,19 @@ The system is designed with a role-based access control architecture, providing 
 
 ---
 
+## Deployment
+
+You can deploy the entire application (both frontend and backend) as a single service on Render.
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/priyanshi04-alt/Smart_Wash)
+
+### Steps:
+1. Click the **Deploy to Render** button above.
+2. Sign in to your Render account.
+3. Click **Apply** to automatically build and run the service using the `render.yaml` configuration.
+
+---
+
 ## Demo Test Credentials
 
 To test the role-based portals, log in with any of the following pre-configured credentials:
