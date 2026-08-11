@@ -1,108 +1,747 @@
-# SmartWash - Smart Hostel Laundry Management System
+# 🧺 SmartWash  
+# Smart Hostel Laundry Management System
 
-SmartWash is a commercial-grade, full-stack SaaS platform designed specifically for hostels, PG accommodations, and residential campuses to digitize and manage the entire laundry booking, verification, processing, and collection lifecycle.
+<p align="center">
 
-The system is designed with a role-based access control architecture, providing dedicated portals for **Administrators**, **Laundry Desk Staff**, and **Students**.
+<img src="https://img.shields.io/badge/React.js-Frontend-blue?style=for-the-badge&logo=react">
+<img src="https://img.shields.io/badge/Vite-Build-purple?style=for-the-badge&logo=vite">
+<img src="https://img.shields.io/badge/Node.js-Backend-green?style=for-the-badge&logo=node.js">
+<img src="https://img.shields.io/badge/Express.js-API-black?style=for-the-badge&logo=express">
+<img src="https://img.shields.io/badge/Database-JSON-orange?style=for-the-badge">
 
----
+</p>
 
-## Key Features
 
-### 1. Student Portal
-- **Dashboard Tracking Timeline**: Real-time visualization of the laundry request progress: `Waiting for Verification` ➔ `Received` ➔ `Washing` ➔ `Drying` ➔ `Ready` ➔ `Delivered`.
-- **Request Submission**: Submit laundry bags indicating the quantities of different clothing items (Shirts, Pants, Towels, Bedsheets, etc.).
-- **Schedule Check**: Restricts submissions to the hostel's allocated laundry days (with admin emergency bypass toggle).
-- **Complaints & Issues**: Report missing or damaged clothes directly to the helpdesk.
-- **My QR Tags**: View unique QR tag serial numbers (20 active tags allocated to each student).
+<p align="center">
+A full-stack SaaS platform that digitizes hostel laundry operations with smart tracking, QR verification, and role-based management.
+</p>
 
-### 2. Laundry Desk Staff Portal
-- **Hostel Queue Management**: Manage incoming, verified, washing, drying, and ready requests for the assigned hostel.
-- **QR Scanner Simulator**: A fully integrated simulator to mock swiping student cards or scanning physical QR clothing tags for easy browser-based testing.
-- **Verification Workflow**: Scans student card to load requests, counts items one-by-one by scanning individual tags, and highlights count mismatches. Locks "Accept Laundry" action until quantities match.
-- **Delivery Flow**: Scan tags on ready orders to quickly mark them as delivered.
-- **Issue Logger**: File tickets for wrong quantities, damaged items, or uncollected laundry.
-
-### 3. Administrator Portal
-- **Operational Metrics**: High-level dashboards showing total hostels, active students, pending orders, and recent activity logs.
-- **SVG Charts**: Interactive, responsive charts showing daily laundry volumes and hostel distribution.
-- **Hostel Configurator**: Register new hostels, map floors, configure rooms, and assign unique theme colors.
-- **Student Mapping**: Register new students, automatically generate unique Laundry IDs, and allocate 20 tag serials.
-- **Laundry Scheduler**: Setup pickup days, times, and emergency bypass policies per hostel.
-- **Credential Manager**: Create and delete staff accounts and desk counters.
-- **Issues Desk**: View and resolve reported student tickets.
 
 ---
 
-## Tech Stack
+# 📌 Overview
 
-- **Frontend**: React.js, Vite, Vanilla CSS Variables (supporting custom hostel theme colors, glassmorphism, responsive sidebar, and dark/light modes).
-- **Icons**: Lucide React
-- **Backend**: Node.js, Express.js, CORS
-- **Database**: Zero-dependency JSON file database (`backend/data/db.json`) for seamless cross-platform execution.
+**SmartWash** is a commercial-grade hostel laundry management system designed for universities, hostels, PG accommodations, and residential campuses.
 
----
+The platform transforms traditional manual laundry processes into a completely digital workflow where students can submit requests, staff can verify and process clothes, and administrators can manage complete laundry operations.
 
-## Getting Started
 
-### Prerequisites
-- Node.js (v18 or higher recommended)
-- npm (Node Package Manager)
+## 👥 User Roles
 
-### Setup & Installation
+| Role | Description |
+|---|---|
+| 👨‍🎓 Student | Submit laundry requests and track status |
+| 🧑‍🔧 Laundry Staff | Verify, process and deliver laundry |
+| 🛡️ Administrator | Manage complete laundry ecosystem |
 
-1. **Clone the Repository**
-   ```bash
-   git clone <your-repository-url>
-   cd laundry-system
-   ```
-
-2. **Setup Backend**
-   ```bash
-   cd backend
-   npm install
-   node server.js
-   ```
-   The backend API will start running on `http://localhost:5000`.
-
-3. **Setup Frontend**
-   ```bash
-   cd ../frontend
-   npm install
-   npm run dev
-   ```
-   The development server will start on `http://localhost:5173`. Open this URL in your web browser.
 
 ---
 
-## Deployment
+# 🚨 Problem Statement
 
-You can deploy the entire application (both frontend and backend) as a single service on Render.
+Traditional hostel laundry systems suffer from:
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/priyanshi04-alt/Smart_Wash)
+- Manual record keeping
+- Lost clothing items
+- No real-time tracking
+- Quantity mismatch issues
+- Poor communication between students and laundry staff
+- Lack of operational monitoring
 
-### Steps:
-1. Click the **Deploy to Render** button above.
-2. Sign in to your Render account.
-3. Click **Apply** to automatically build and run the service using the `render.yaml` configuration.
 
 ---
 
-## Demo Test Credentials
+# 💡 Solution
 
-To test the role-based portals, log in with any of the following pre-configured credentials:
+SmartWash provides a centralized digital laundry ecosystem with:
 
-### 1. Administrator Account
-- **Email**: `admin@univ.edu`
-- **Password**: `admin123`
+✅ Online laundry booking  
+✅ QR-based clothing verification  
+✅ Real-time laundry tracking  
+✅ Automated scheduling  
+✅ Complaint management  
+✅ Role-based dashboards  
+✅ Hostel-wise management  
 
-### 2. Laundry Desk Staff (Boys Hostel A Counter)
-- **Email**: `staff@univ.edu`
-- **Password**: `staff123`
 
-### 3. Student Accounts
-- **Aarav Sharma (Boys Hostel A)**:
-  - **Email**: `aarav@univ.edu`
-  - **Password**: `aarav123`
-- **Priya Patel (Girls Hostel A)**:
-  - **Email**: `priya@univ.edu`
-  - **Password**: `priya123`
+---
+
+# 🔄 Laundry Workflow
+
+
+```
+Student Creates Request
+
+          ↓
+
+Laundry Bag Verification
+
+          ↓
+
+QR Tag Scanning
+
+          ↓
+
+Laundry Accepted
+
+          ↓
+
+Washing
+
+          ↓
+
+Drying
+
+          ↓
+
+Ready For Pickup
+
+          ↓
+
+Delivered
+
+```
+
+
+---
+
+# 📸 Application Screenshots
+
+
+## 🔐 Authentication System
+
+
+SmartWash provides role-based login access for:
+
+- Students
+- Laundry Staff
+- Administrators
+
+
+![Login](screenshots/login.png)
+
+
+
+---
+
+# 👨‍🎓 Student Portal
+
+
+## Student Dashboard
+
+
+Students can monitor their complete laundry journey.
+
+
+### Features:
+
+- View current laundry status
+- Track order progress
+- Check laundry schedule
+- View active QR tags
+- Access previous requests
+
+
+![Student Dashboard](screenshots/student-dashboard.png)
+
+
+
+---
+
+## 📦 Laundry Request Submission
+
+
+Students can create laundry requests by selecting clothing categories.
+
+
+Supported items:
+
+- Shirts
+- Pants
+- T-Shirts
+- Towels
+- Bedsheets
+- Blankets
+- Other clothes
+
+
+![Request](screenshots/request.png)
+
+
+
+---
+
+## 📍 Real-Time Tracking Timeline
+
+
+Laundry status follows:
+
+
+```
+Waiting For Verification
+
+          ↓
+
+Received
+
+          ↓
+
+Washing
+
+          ↓
+
+Drying
+
+          ↓
+
+Ready
+
+          ↓
+
+Delivered
+
+```
+
+
+![Tracking](screenshots/tracking.png)
+
+
+
+---
+
+## ⚠️ Complaint Management
+
+
+Students can report:
+
+- Missing clothes
+- Damaged clothes
+- Incorrect quantity
+- Other laundry issues
+
+
+![Issues](screenshots/student-issue.png)
+
+
+
+---
+
+# 🧑‍🔧 Laundry Staff Portal
+
+
+## Staff Dashboard
+
+
+Laundry desk staff can manage hostel laundry operations.
+
+
+Features:
+
+- View incoming requests
+- Verify laundry bags
+- Update laundry status
+- Manage deliveries
+- Create issue tickets
+
+
+![Staff Dashboard](screenshots/staff-dashboard.png)
+
+
+
+---
+
+## 🔍 QR Verification System
+
+
+SmartWash uses QR-based verification to prevent mistakes.
+
+
+Workflow:
+
+
+```
+Scan Student Laundry ID
+
+          ↓
+
+Scan Individual Clothing Tags
+
+          ↓
+
+Match Expected Quantity
+
+          ↓
+
+Accept Laundry
+
+```
+
+
+Benefits:
+
+- Prevents missing items
+- Improves transparency
+- Reduces manual errors
+
+
+![QR Scanner](screenshots/qr-scanner.png)
+
+
+
+---
+
+# 🛡️ Administrator Portal
+
+
+The admin panel provides complete control over hostel laundry operations.
+
+
+---
+
+## 📊 Operational Dashboard
+
+
+Admin can monitor:
+
+
+- Total hostels
+- Active students
+- Staff members
+- Pending requests
+- Laundry statistics
+- Recent activities
+
+
+![Admin Dashboard](screenshots/admin-dashboard.png)
+
+
+
+---
+
+## 🏢 Hostel Management
+
+
+Administrators can:
+
+- Register hostels
+- Configure hostel details
+- Manage floors and rooms
+- Assign themes
+
+
+![Hostel Management](screenshots/hostels.png)
+
+
+
+---
+
+## 👨‍🎓 Student Management
+
+
+Admin can:
+
+- Register students
+- Assign hostels
+- Map rooms
+- Generate Laundry IDs
+- Allocate QR tags
+
+
+![Students](screenshots/students.png)
+
+
+
+---
+
+## 📅 Laundry Scheduler
+
+
+Admin can configure:
+
+
+- Laundry pickup days
+- Delivery timings
+- Emergency submissions
+- Hostel specific rules
+
+
+![Scheduler](screenshots/scheduling.png)
+---
+
+# ✨ Key Features
+
+
+## 👨‍🎓 Student Features
+
+
+| Feature | Description |
+|---|---|
+| Laundry Request | Submit clothes digitally |
+| Live Tracking | Track laundry progress |
+| QR Tags | Unique clothing identification |
+| Schedule Check | Restrict requests based on laundry days |
+| Complaint System | Report missing or damaged clothes |
+| History | View previous laundry records |
+
+
+---
+
+## 🧑‍🔧 Laundry Staff Features
+
+
+| Feature | Description |
+|---|---|
+| Queue Management | Manage incoming laundry requests |
+| QR Scanner | Verify student and clothing tags |
+| Quantity Matching | Prevent item mismatch |
+| Status Updates | Update washing stages |
+| Delivery Verification | Confirm successful delivery |
+| Issue Logger | Report laundry problems |
+
+
+---
+
+## 🛡️ Administrator Features
+
+
+| Feature | Description |
+|---|---|
+| Analytics Dashboard | Monitor laundry operations |
+| Hostel Management | Configure hostel structure |
+| Student Mapping | Manage students and rooms |
+| Staff Management | Create desk accounts |
+| Scheduler | Configure laundry timings |
+| Issue Desk | Resolve complaints |
+
+
+---
+
+# 🏗️ System Architecture
+
+
+```
+                 USERS
+
+     Student     Staff     Admin
+
+          \        |        /
+
+              React Frontend
+
+                    |
+
+             Express REST API
+
+                    |
+
+              JSON Database
+
+```
+
+
+---
+
+# 🔧 Technology Stack
+
+
+## Frontend
+
+- React.js
+- Vite
+- JavaScript
+- Vanilla CSS
+- CSS Variables
+- Lucide React Icons
+
+
+## Backend
+
+- Node.js
+- Express.js
+- CORS
+
+
+## Database
+
+- JSON File Database
+
+
+## Development Tools
+
+- Git
+- GitHub
+- VS Code
+- npm
+
+
+---
+
+# 📂 Project Structure
+
+
+```
+SmartWash
+
+│
+├── frontend
+│
+│   ├── src
+│   ├── components
+│   ├── pages
+│   └── assets
+│
+│
+├── backend
+│
+│   ├── server.js
+│   ├── routes
+│   └── data
+│
+│
+├── screenshots
+│
+└── README.md
+
+```
+
+
+---
+
+# 🚀 Installation & Setup
+
+
+## 1. Clone Repository
+
+
+```bash
+git clone <your-repository-url>
+
+cd SmartWash
+```
+
+
+---
+
+# Backend Setup
+
+
+Navigate to backend folder:
+
+
+```bash
+cd backend
+```
+
+
+Install dependencies:
+
+
+```bash
+npm install
+```
+
+
+Start backend server:
+
+
+```bash
+node server.js
+```
+
+
+Backend will run on:
+
+
+```
+http://localhost:5000
+```
+
+
+---
+
+# Frontend Setup
+
+
+Open another terminal:
+
+
+```bash
+cd frontend
+```
+
+
+Install dependencies:
+
+
+```bash
+npm install
+```
+
+
+Start development server:
+
+
+```bash
+npm run dev
+```
+
+
+Frontend will run on:
+
+
+```
+http://localhost:5173
+```
+
+
+---
+
+# 🔑 Demo Credentials
+
+
+## 🛡️ Administrator Account
+
+
+```
+Email:
+admin@univ.edu
+
+Password:
+admin123
+```
+
+
+---
+
+## 🧑‍🔧 Laundry Staff Account
+
+
+```
+Email:
+staff@univ.edu
+
+Password:
+staff123
+```
+
+
+---
+
+## 👨‍🎓 Student Account
+
+
+```
+Name:
+Aarav Sharma
+
+
+Email:
+aarav@univ.edu
+
+
+Password:
+aarav123
+```
+
+
+---
+
+# 🌟 Future Enhancements
+
+
+## 📱 Mobile Application
+
+A dedicated Android/iOS application for students and staff.
+
+
+## ☁️ Cloud Deployment
+
+Migration from JSON storage to:
+
+- MongoDB
+- PostgreSQL
+- Cloud databases
+
+
+## 🔔 Real-Time Notifications
+
+Notifications for:
+
+- Laundry received
+- Washing completed
+- Ready for pickup
+
+
+## 🔐 Advanced Identification
+
+Integration with:
+
+- RFID cards
+- NFC tags
+- Smart campus systems
+
+
+## 🤖 AI Integration
+
+Future AI features:
+
+- Laundry demand prediction
+- Workload optimization
+- Smart scheduling
+
+
+## 📊 Advanced Analytics
+
+Including:
+
+- Monthly reports
+- Usage patterns
+- Hostel comparisons
+
+
+---
+
+# 🎯 Project Highlights
+
+
+⭐ Complete Role-Based SaaS Architecture
+
+⭐ QR Powered Laundry Tracking
+
+⭐ Real-Time Workflow Management
+
+⭐ Modern Responsive Interface
+
+⭐ Hostel Automation Solution
+
+⭐ End-to-End Laundry Lifecycle Management
+
+
+---
+
+# 📌 Why SmartWash?
+
+
+SmartWash is not just a laundry booking application.
+
+It is a complete digital transformation solution for hostel laundry operations that improves:
+
+- Transparency
+- Efficiency
+- Accountability
+- User Experience
+
+
+---
+
+# 👩‍💻 Developer
+
+
+## Priyanshi Soni
+
+Computer Science Engineering Student
+
+
+---
+
+
