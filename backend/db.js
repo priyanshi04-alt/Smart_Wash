@@ -64,10 +64,10 @@ const defaultData = {
     }
   ],
   schedules: [
-    { hostelId: "h1", days: ["Monday", "Thursday"], pickup: "08:00", delivery: "18:00", emergencyEnabled: true },
-    { hostelId: "h2", days: ["Tuesday", "Friday"], pickup: "08:00", delivery: "18:00", emergencyEnabled: true },
-    { hostelId: "h3", days: ["Wednesday", "Saturday"], pickup: "09:00", delivery: "17:00", emergencyEnabled: false },
-    { hostelId: "h4", days: ["Wednesday", "Saturday"], pickup: "09:00", delivery: "17:00", emergencyEnabled: false }
+    { hostelId: "h1", days: ["Monday", "Thursday"], pickup: "08:00", delivery: "18:00", emergencyEnabled: true, maxWeight: 5, extraWeightRate: 20 },
+    { hostelId: "h2", days: ["Tuesday", "Friday"], pickup: "08:00", delivery: "18:00", emergencyEnabled: true, maxWeight: 5, extraWeightRate: 20 },
+    { hostelId: "h3", days: ["Wednesday", "Saturday"], pickup: "09:00", delivery: "17:00", emergencyEnabled: false, maxWeight: 5, extraWeightRate: 20 },
+    { hostelId: "h4", days: ["Wednesday", "Saturday"], pickup: "09:00", delivery: "17:00", emergencyEnabled: false, maxWeight: 5, extraWeightRate: 20 }
   ],
   requests: [
     {
@@ -128,7 +128,25 @@ export function readDb() {
   }
   try {
     const raw = fs.readFileSync(DB_PATH, 'utf-8');
-    return JSON.parse(raw);
+    const data = JSON.parse(raw);
+    let modified = false;
+    if (data.schedules) {
+      data.schedules = data.schedules.map(s => {
+        if (s.maxWeight === undefined || s.extraWeightRate === undefined) {
+          modified = true;
+          return {
+            ...s,
+            maxWeight: s.maxWeight !== undefined ? s.maxWeight : 5,
+            extraWeightRate: s.extraWeightRate !== undefined ? s.extraWeightRate : 20
+          };
+        }
+        return s;
+      });
+    }
+    if (modified) {
+      fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf-8');
+    }
+    return data;
   } catch (err) {
     console.error("Error reading database file, resetting to default:", err);
     return defaultData;

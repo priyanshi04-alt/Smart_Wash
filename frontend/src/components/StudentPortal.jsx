@@ -360,6 +360,21 @@ export default function StudentPortal({ user, onLogout }) {
                         ))}
                       </div>
                       
+                      {activeRequest.weight !== undefined && (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', marginTop: '1rem', paddingTop: '0.75rem', borderTop: '1px solid var(--border-color)', fontSize: '0.85rem' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <span>Measured Weight:</span>
+                            <span style={{ fontWeight: 600 }}>{activeRequest.weight} kg</span>
+                          </div>
+                          {activeRequest.overLimitCharge !== undefined && activeRequest.overLimitCharge > 0 && (
+                            <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--status-issue)', fontWeight: 600 }}>
+                              <span>Over-Limit Charge:</span>
+                              <span>₹{activeRequest.overLimitCharge}</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      
                       {activeRequest.issue && (
                         <div style={{ display: 'flex', gap: '0.5rem', background: 'var(--status-issue-bg)', color: 'var(--status-issue)', padding: '0.75rem', borderRadius: '0.5rem', marginTop: '1rem', fontSize: '0.85rem' }}>
                           <ShieldAlert size={18} />
@@ -399,6 +414,11 @@ export default function StudentPortal({ user, onLogout }) {
                 <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
                   Specify the count of each clothing item you want to hand over.
                 </p>
+                {schedule && (
+                  <p style={{ fontSize: '0.85rem', color: 'var(--hostel-color)', fontWeight: 600, marginTop: '0.5rem' }}>
+                    ⚖️ Weight Limit: {schedule.maxWeight || 5.0} kg per bag. Extra weight will be charged at ₹{schedule.extraWeightRate || 20}/kg.
+                  </p>
+                )}
               </div>
 
               {!canSubmit && (
@@ -500,6 +520,7 @@ export default function StudentPortal({ user, onLogout }) {
                         <th>Request ID</th>
                         <th>Date Submitted</th>
                         <th>Total Items</th>
+                        <th>Weight / Fee</th>
                         <th>Clothes Breakdown</th>
                         <th>Status</th>
                       </tr>
@@ -510,6 +531,14 @@ export default function StudentPortal({ user, onLogout }) {
                           <td style={{ fontWeight: 600, color: 'var(--hostel-color)' }}>{r.id}</td>
                           <td>{new Date(r.createdAt).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
                           <td style={{ fontWeight: 600 }}>{r.expectedTotal}</td>
+                          <td>
+                            {r.weight !== undefined ? `${r.weight} kg` : <span style={{ color: 'var(--text-muted)' }}>-</span>}
+                            {r.overLimitCharge > 0 && (
+                              <span style={{ display: 'block', color: 'var(--status-issue)', fontSize: '0.8rem', fontWeight: 600 }}>
+                                ₹{r.overLimitCharge}
+                              </span>
+                            )}
+                          </td>
                           <td style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
                             {Object.entries(r.clothes).map(([name, qty]) => qty > 0 && `${name} (${qty})`).filter(Boolean).join(', ')}
                           </td>

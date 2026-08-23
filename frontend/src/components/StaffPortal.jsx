@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   WashingMachine, LayoutDashboard, ScanLine, ClipboardList, CheckSquare, 
   ShoppingBag, LogOut, Search, RefreshCw, Check, AlertTriangle, 
-  Trash2, Play, Flame, Gift, ArrowRight, UserCheck 
+  Trash2, Play, Flame, Gift, ArrowRight, UserCheck, QrCode 
 } from 'lucide-react';
 import { API_URL } from '../config';
 
@@ -10,6 +10,7 @@ export default function StaffPortal({ user, onLogout }) {
   const [activeTab, setActiveTab] = useState('queue');
   const [requests, setRequests] = useState([]);
   const [hostel, setHostel] = useState(null);
+  const [schedule, setSchedule] = useState(null);
   
   // Search and filter
   const [searchQuery, setSearchQuery] = useState('');
@@ -22,6 +23,7 @@ export default function StaffPortal({ user, onLogout }) {
   const [scannedTagsList, setScannedTagsList] = useState([]);
   const [scanError, setScanError] = useState('');
   const [scanSuccess, setScanSuccess] = useState('');
+  const [weightInput, setWeightInput] = useState('');
 
   // Report Issue
   const [issueType, setIssueType] = useState('Wrong Quantity');
@@ -39,6 +41,12 @@ export default function StaffPortal({ user, onLogout }) {
       const hostelData = await hostelRes.json();
       const myHostel = hostelData.find(h => h.id === user.hostelId);
       setHostel(myHostel);
+
+      // 1.5 Fetch schedule
+      const schedRes = await fetch(`${API_URL}/api/schedules`);
+      const schedData = await schedRes.json();
+      const mySched = schedData.find(s => s.hostelId === user.hostelId);
+      setSchedule(mySched);
 
       // Apply hostel theme color
       if (myHostel) {
@@ -60,12 +68,12 @@ export default function StaffPortal({ user, onLogout }) {
     }
   };
 
-  const handleUpdateStatus = async (requestId, nextStatus, note = '') => {
+  const handleUpdateStatus = async (requestId, nextStatus, note = '', extraArgs = {}) => {
     try {
       const response = await fetch(`${API_URL}/api/requests/${requestId}/status`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: nextStatus, note })
+        body: JSON.stringify({ status: nextStatus, note, ...extraArgs })
       });
       if (!response.ok) throw new Error("Failed to update status");
       
@@ -76,6 +84,7 @@ export default function StaffPortal({ user, onLogout }) {
         setActiveVerificationStudent(null);
         setScannedTagsList([]);
         setScanPayloadInput('');
+        setWeightInput('');
       }
     } catch (err) {
       alert(err.message);
@@ -362,6 +371,7 @@ export default function StaffPortal({ user, onLogout }) {
                         <th>Laundry ID</th>
                         <th>Room</th>
                         <th>Total Items</th>
+                        <th>Weight / Fee</th>
                         <th>Breakdown</th>
                         <th>Status / Action</th>
                       </tr>
@@ -378,6 +388,14 @@ export default function StaffPortal({ user, onLogout }) {
                           </td>
                           <td>Room {r.room}</td>
                           <td style={{ fontWeight: 700 }}>{r.expectedTotal}</td>
+                          <td>
+                            {r.weight !== undefined ? `${r.weight} kg` : <span style={{ color: 'var(--text-muted)' }}>-</span>}
+                            {r.overLimitCharge > 0 && (
+                              <span style={{ display: 'block', color: 'var(--status-issue)', fontSize: '0.75rem', fontWeight: 600, marginTop: '0.1rem' }}>
+                                ₹{r.overLimitCharge}
+                              </span>
+                            )}
+                          </td>
                           <td style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
                             {Object.entries(r.clothes).map(([name, qty]) => qty > 0 && `${name} (${qty})`).filter(Boolean).join(', ')}
                           </td>
@@ -460,8 +478,8 @@ export default function StaffPortal({ user, onLogout }) {
                 {/* Scan box animation */}
                 <div className="scanner-outline">
                   <div className="scanner-laser"></div>
-                  <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate/translate(-50%,-50%)', opacity: 0.15 }}>
-                    <ScanLine size={120} style={{ color: 'var(--hostel-color)' }} />
+                  <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: 0.15 }}>
+                    <QrCode size={120} style={{ color: 'var(--hostel-color)' }} />
                   </div>
                 </div>
 
@@ -664,31 +682,94 @@ export default function StaffPortal({ user, onLogout }) {
                       </div>
                     </div>
 
-                    {/* Accept Action */}
-                    <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
-                      <button
-                        onClick={() => handleUpdateStatus(activeVerificationRequest.id, 'Received', `Received and verified ${scannedTagsList.length} tags`)}
-                        disabled={scannedTagsList.length !== activeVerificationRequest.expectedTotal}
-                        className="btn btn-primary"
-                        style={{ flex: 1 }}
-                      >
-                        ✔ Accept Laundry
-                      </button>
-                      <button
-                        onClick={() => {
-                          setActiveVerificationRequest(null);
-                          setActiveVerificationStudent(null);
-                          setScannedTagsList([]);
-                          setScanPayloadInput('');
-                          setScanError('');
-                          setScanSuccess('');
-                        }}
-                        className="btn btn-secondary"
-                      >
-                        Cancel
-                      </button>
-                    </div>
+                    {/* Weight Measurement Input */}
+                    {(() => {
+                      const maxW = schedule?.maxWeight !== undefined ? schedule.maxWeight : 5.0;
+                      const rateW = schedule?.extraWeightRate !== undefined ? schedule.extraWeightRate : 20.0;
+                      const measuredW = parseFloat(weightInput) || 0;
+                      const isOverLimit = measuredW > maxW;
+                      const extraWeight = isOverLimit ? Number((measuredW - maxW).toFixed(1)) : 0;
+                      const overLimitFee = isOverLimit ? Number((extraWeight * rateW).toFixed(1)) : 0;
 
+                      return (
+                        <div style={{ background: 'var(--bg-secondary)', padding: '1rem', borderRadius: '0.75rem', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                          <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                            Measured Weight (kg) <span style={{ color: 'var(--status-issue)' }}>*</span>
+                          </label>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+                            <input
+                              type="number"
+                              step="0.1"
+                              min="0.1"
+                              placeholder="e.g. 4.8"
+                              className="custom-input"
+                              style={{ maxWidth: '110px' }}
+                              value={weightInput}
+                              onChange={(e) => setWeightInput(e.target.value)}
+                            />
+                            <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                              Limit: <b>{maxW} kg</b> (₹{rateW}/kg extra)
+                            </span>
+                          </div>
+                          
+                          {measuredW > 0 && (
+                            <div style={{ fontSize: '0.85rem', marginTop: '0.25rem' }}>
+                              {isOverLimit ? (
+                                <p style={{ color: 'var(--status-issue)', fontWeight: 600 }}>
+                                  ⚠️ +{extraWeight} kg over limit! Fee: ₹{overLimitFee}
+                                </p>
+                              ) : (
+                                <p style={{ color: 'var(--status-washing)', fontWeight: 600 }}>
+                                  🟢 Within limit ({measuredW} kg). No extra fee.
+                                </p>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })()}
+
+                    {/* Accept Action */}
+                    {(() => {
+                      const maxW = schedule?.maxWeight !== undefined ? schedule.maxWeight : 5.0;
+                      const rateW = schedule?.extraWeightRate !== undefined ? schedule.extraWeightRate : 20.0;
+                      const measuredW = parseFloat(weightInput) || 0;
+                      const isOverLimit = measuredW > maxW;
+                      const extraWeight = isOverLimit ? Number((measuredW - maxW).toFixed(1)) : 0;
+                      const overLimitFee = isOverLimit ? Number((extraWeight * rateW).toFixed(1)) : 0;
+
+                      return (
+                        <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
+                          <button
+                            onClick={() => handleUpdateStatus(
+                              activeVerificationRequest.id, 
+                              'Received', 
+                              `Received and verified ${scannedTagsList.length} tags. Weight: ${measuredW} kg.`,
+                              { weight: measuredW, overLimitCharge: overLimitFee }
+                            )}
+                            disabled={scannedTagsList.length !== activeVerificationRequest.expectedTotal || measuredW <= 0}
+                            className="btn btn-primary"
+                            style={{ flex: 1 }}
+                          >
+                            ✔ Accept Laundry
+                          </button>
+                          <button
+                            onClick={() => {
+                              setActiveVerificationRequest(null);
+                              setActiveVerificationStudent(null);
+                              setScannedTagsList([]);
+                              setScanPayloadInput('');
+                              setScanError('');
+                              setScanSuccess('');
+                              setWeightInput('');
+                            }}
+                            className="btn btn-secondary"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      );
+                    })()}
                   </div>
                 ) : (
                   <div style={{ textAlign: 'center', padding: '4rem 1rem', color: 'var(--text-muted)' }}>

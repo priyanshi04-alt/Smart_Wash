@@ -4,8 +4,8 @@ import { API_URL } from '../config';
 
 export default function AuthScreen({ onLoginSuccess }) {
   const [role, setRole] = useState('student'); // student, staff, admin
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('aarav@univ.edu');
+  const [password, setPassword] = useState('aarav123');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   WashingMachine, LayoutDashboard, Home, Users, Key, Briefcase, 
   Calendar, ShieldAlert, FileText, Plus, Edit, Trash2, CheckCircle, 
-  Search, RefreshCw, X, UserMinus, AlertTriangle, LogOut
+  Search, RefreshCw, X, UserMinus, AlertTriangle, LogOut, Scale
 } from 'lucide-react';
 import { API_URL } from '../config';
 
@@ -58,6 +58,8 @@ export default function AdminPortal({ user, onLogout }) {
   const [schedPickup, setSchedPickup] = useState('08:00');
   const [schedDelivery, setSchedDelivery] = useState('18:00');
   const [schedEmergency, setSchedEmergency] = useState(false);
+  const [schedMaxWeight, setSchedMaxWeight] = useState(5.0);
+  const [schedExtraWeightRate, setSchedExtraWeightRate] = useState(20.0);
 
   useEffect(() => {
     fetchAdminData();
@@ -106,6 +108,8 @@ export default function AdminPortal({ user, onLogout }) {
         setSchedPickup(currentSched.pickup);
         setSchedDelivery(currentSched.delivery);
         setSchedEmergency(currentSched.emergencyEnabled);
+        setSchedMaxWeight(currentSched.maxWeight !== undefined ? currentSched.maxWeight : 5.0);
+        setSchedExtraWeightRate(currentSched.extraWeightRate !== undefined ? currentSched.extraWeightRate : 20.0);
       }
 
       // 6. Fetch requests
@@ -297,7 +301,9 @@ export default function AdminPortal({ user, onLogout }) {
           days: selectedDays,
           pickup: schedPickup,
           delivery: schedDelivery,
-          emergencyEnabled: schedEmergency
+          emergencyEnabled: schedEmergency,
+          maxWeight: schedMaxWeight,
+          extraWeightRate: schedExtraWeightRate
         })
       });
       if (!response.ok) throw new Error("Failed to save schedule");
@@ -317,11 +323,15 @@ export default function AdminPortal({ user, onLogout }) {
       setSchedPickup(sched.pickup);
       setSchedDelivery(sched.delivery);
       setSchedEmergency(sched.emergencyEnabled);
+      setSchedMaxWeight(sched.maxWeight !== undefined ? sched.maxWeight : 5.0);
+      setSchedExtraWeightRate(sched.extraWeightRate !== undefined ? sched.extraWeightRate : 20.0);
     } else {
       setSelectedDays([]);
       setSchedPickup('08:00');
       setSchedDelivery('18:00');
       setSchedEmergency(false);
+      setSchedMaxWeight(5.0);
+      setSchedExtraWeightRate(20.0);
     }
   };
 
@@ -437,6 +447,20 @@ export default function AdminPortal({ user, onLogout }) {
                     <h3 style={{ fontSize: '1.5rem', fontWeight: 700, marginTop: '0.25rem' }}>{stats.todayRequestsCount}</h3>
                   </div>
                   <div className="stats-icon" style={{ backgroundColor: '#f59e0b' }}><WashingMachine size={24} /></div>
+                </div>
+                <div className="glass-card stats-card">
+                  <div>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', fontWeight: 500 }}>Weight Processed Today</p>
+                    <h3 style={{ fontSize: '1.5rem', fontWeight: 700, marginTop: '0.25rem' }}>{stats.totalWeightToday || 0} kg</h3>
+                  </div>
+                  <div className="stats-icon" style={{ backgroundColor: '#ec4899' }}><Scale size={24} /></div>
+                </div>
+                <div className="glass-card stats-card">
+                  <div>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', fontWeight: 500 }}>Avg Bag Weight</p>
+                    <h3 style={{ fontSize: '1.5rem', fontWeight: 700, marginTop: '0.25rem' }}>{stats.averageBagWeight || 0} kg</h3>
+                  </div>
+                  <div className="stats-icon" style={{ backgroundColor: '#6366f1' }}><Scale size={24} /></div>
                 </div>
               </div>
 
@@ -772,6 +796,35 @@ export default function AdminPortal({ user, onLogout }) {
                     </div>
                   </div>
 
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>
+                        Max Weight Limit (kg)
+                      </label>
+                      <input 
+                        type="number" 
+                        step="0.1"
+                        min="0.1"
+                        className="custom-input"
+                        value={schedMaxWeight}
+                        onChange={(e) => setSchedMaxWeight(parseFloat(e.target.value) || 0)}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>
+                        Extra Weight Rate (₹/kg)
+                      </label>
+                      <input 
+                        type="number" 
+                        step="0.5"
+                        min="0"
+                        className="custom-input"
+                        value={schedExtraWeightRate}
+                        onChange={(e) => setSchedExtraWeightRate(parseFloat(e.target.value) || 0)}
+                      />
+                    </div>
+                  </div>
+
                   <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', cursor: 'pointer', borderTop: '1px solid var(--border-color)', paddingTop: '1rem' }}>
                     <input
                       type="checkbox"
@@ -847,6 +900,7 @@ export default function AdminPortal({ user, onLogout }) {
                       <th>Laundry ID</th>
                       <th>Hostel</th>
                       <th>Total Items</th>
+                      <th>Weight & Fee</th>
                       <th>Scanned Tags</th>
                       <th>Status</th>
                       <th>Date</th>
@@ -868,6 +922,14 @@ export default function AdminPortal({ user, onLogout }) {
                           </span>
                         </td>
                         <td style={{ fontWeight: 700 }}>{r.expectedTotal}</td>
+                        <td>
+                          {r.weight !== undefined ? `${r.weight} kg` : <span style={{ color: 'var(--text-muted)' }}>-</span>}
+                          {r.overLimitCharge > 0 && (
+                            <span style={{ display: 'block', color: 'var(--status-issue)', fontSize: '0.75rem', fontWeight: 600, marginTop: '0.1rem' }}>
+                              ₹{r.overLimitCharge}
+                            </span>
+                          )}
+                        </td>
                         <td style={{ fontSize: '0.8rem', fontFamily: 'monospace' }}>
                           {r.scannedTags.length > 0 ? r.scannedTags.join(', ') : 'None'}
                         </td>

@@ -612,7 +612,9 @@
       ],
       "pickup": "08:00",
       "delivery": "18:00",
-      "emergencyEnabled": true
+      "emergencyEnabled": true,
+      "maxWeight": 4.5,
+      "extraWeightRate": 15
     },
     {
       "hostelId": "h2",
@@ -622,7 +624,9 @@
       ],
       "pickup": "08:00",
       "delivery": "18:00",
-      "emergencyEnabled": true
+      "emergencyEnabled": true,
+      "maxWeight": 5,
+      "extraWeightRate": 20
     },
     {
       "hostelId": "h3",
@@ -632,7 +636,9 @@
       ],
       "pickup": "09:00",
       "delivery": "17:00",
-      "emergencyEnabled": false
+      "emergencyEnabled": false,
+      "maxWeight": 5,
+      "extraWeightRate": 20
     },
     {
       "hostelId": "h4",
@@ -642,7 +648,9 @@
       ],
       "pickup": "09:00",
       "delivery": "17:00",
-      "emergencyEnabled": false
+      "emergencyEnabled": false,
+      "maxWeight": 5,
+      "extraWeightRate": 20
     },
     {
       "hostelId": "h5",
@@ -651,7 +659,9 @@
       ],
       "pickup": "08:00",
       "delivery": "18:00",
-      "emergencyEnabled": false
+      "emergencyEnabled": false,
+      "maxWeight": 5,
+      "extraWeightRate": 20
     }
   ],
   "requests": [
@@ -690,8 +700,15 @@
           "status": "Received",
           "timestamp": "2026-07-12T10:40:53.852Z",
           "note": "Received and verified 7 tags"
+        },
+        {
+          "status": "Received",
+          "timestamp": "2026-07-28T13:08:18.251Z",
+          "note": "Accepted with 6.0 kg bag"
         }
-      ]
+      ],
+      "weight": 6,
+      "overLimitCharge": 22.5
     },
     {
       "id": "r2",
@@ -806,6 +823,8 @@
       },
       "expectedTotal": 3,
       "scannedTags": [
+        "T0122",
+        "T0123",
         "T0121"
       ],
       "status": "Waiting for Verification",

@@ -53,6 +53,17 @@ app.get('/api/dashboard/admin', (req, res) => {
   const pendingRequests = db.requests.filter(r => r.status !== 'Delivered').length;
   const completedRequests = db.requests.filter(r => r.status === 'Delivered').length;
   
+  // Weight metrics
+  const totalWeightToday = Number(todayRequests
+    .filter(r => r.weight !== undefined)
+    .reduce((sum, r) => sum + Number(r.weight), 0)
+    .toFixed(1));
+
+  const weightedRequests = db.requests.filter(r => r.weight !== undefined);
+  const averageBagWeight = weightedRequests.length > 0
+    ? Number((weightedRequests.reduce((sum, r) => sum + Number(r.weight), 0) / weightedRequests.length).toFixed(1))
+    : 0;
+
   // Calculate hostel stats (request distribution)
   const hostelStats = db.hostels.map(h => {
     const count = db.requests.filter(r => r.hostelId === h.id).length;
@@ -96,7 +107,9 @@ app.get('/api/dashboard/admin', (req, res) => {
     completedRequests,
     hostelStats,
     dailyCounts,
-    recentActivities: recent
+    recentActivities: recent,
+    totalWeightToday,
+    averageBagWeight
   });
 });
 
@@ -379,14 +392,33 @@ app.get('/api/schedules', (req, res) => {
 });
 
 app.post('/api/schedules', (req, res) => {
-  const { hostelId, days, pickup, delivery, emergencyEnabled } = req.body;
+  const { hostelId, days, pickup, delivery, emergencyEnabled, maxWeight, extraWeightRate } = req.body;
   const db = readDb();
   
+  const parsedMaxWeight = maxWeight !== undefined ? Number(maxWeight) : 5;
+  const parsedExtraWeightRate = extraWeightRate !== undefined ? Number(extraWeightRate) : 20;
+
   const idx = db.schedules.findIndex(s => s.hostelId === hostelId);
   if (idx !== -1) {
-    db.schedules[idx] = { hostelId, days, pickup, delivery, emergencyEnabled };
+    db.schedules[idx] = { 
+      hostelId, 
+      days, 
+      pickup, 
+      delivery, 
+      emergencyEnabled,
+      maxWeight: parsedMaxWeight,
+      extraWeightRate: parsedExtraWeightRate
+    };
   } else {
-    db.schedules.push({ hostelId, days, pickup, delivery, emergencyEnabled });
+    db.schedules.push({ 
+      hostelId, 
+      days, 
+      pickup, 
+      delivery, 
+      emergencyEnabled,
+      maxWeight: parsedMaxWeight,
+      extraWeightRate: parsedExtraWeightRate
+    });
   }
   
   writeDb(db);
@@ -627,7 +659,7 @@ app.post('/api/requests/scan-delivery', (req, res) => {
 // Update Request Status (Standard flow: Received -> Washing -> Drying -> Ready -> Delivered)
 app.post('/api/requests/:id/status', (req, res) => {
   const { id } = req.params;
-  const { status, note } = req.body;
+  const { status, note, weight, overLimitCharge } = req.body;
   const db = readDb();
   
   const idx = db.requests.findIndex(r => r.id === id);
@@ -635,6 +667,9 @@ app.post('/api/requests/:id/status', (req, res) => {
   
   const request = db.requests[idx];
   request.status = status;
+  if (weight !== undefined) request.weight = Number(weight);
+  if (overLimitCharge !== undefined) request.overLimitCharge = Number(overLimitCharge);
+  
   request.history.push({
     status,
     timestamp: new Date().toISOString(),
